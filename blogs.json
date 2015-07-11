@@ -1,0 +1,13 @@
+{
+	"nodes": [
+		{"name": "Tukas"},
+		{"name": "Mukas"},
+		{"name": "Bukas"},
+		{"name": "Fukas"}
+	],
+	"links": [
+		{"source": 0, "target": 1, "value": 1},
+		{"source": 1, "target": 2, "value": 3},
+		{"source": 1, "target": 3, "value": 1}
+  ]
+}

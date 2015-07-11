@@ -1,0 +1,3 @@
+Tukas	Mukas
+Mukas	Bukas
+Mukas	Fukas
