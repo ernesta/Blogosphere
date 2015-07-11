@@ -1,10 +1,10 @@
 from __future__ import division
 import copy
+import json
 
 
 
 # CONSTANTS
-FILENAME = "blogs.txt"
 ITERATIONS = 10
 L = 0.8
 
@@ -13,12 +13,12 @@ L = 0.8
 # FUNCTIONS
 ### Utilities ###
 # Reads in a basic graph from a file.
-def readGraph(filename):
+def readGraph():
 	senders = {}
 	recipients = {}
 	
-	with open(filename, "rb") as file:
-		for line in file:
+	with open("blogs.txt", "r") as input:
+		for line in input:
 			tokens = line.split("\t")
 			sender = tokens[0].strip()
 			recipient = tokens[1].strip()
@@ -46,6 +46,27 @@ def readGraph(filename):
 	return senders, recipients
 
 
+# Collects the data necessary for the graph, saves to JSON.
+def saveAsJSON(senders, PR):
+	nodes = []
+	links = []
+	
+	bloggers = senders.keys()
+	for source, sender in enumerate(bloggers):
+		nodes.append({
+			"name": sender,
+			"importance": PR[sender]
+		})
+		
+		for recipient in senders[sender]:
+			links.append({
+				"source": source,
+				"target": bloggers.index(recipient)})
+	
+	with open("blogs.json", "w") as output:
+		json.dump({"nodes": nodes, "links": links}, output)
+	
+	
 # Normalises a dictionary of scores using a provided normaliser.
 def normalize(scores, norm):
 	for node, score in scores.iteritems():
@@ -158,6 +179,6 @@ def computePR(senderGraph, recipientGraph):
 
 
 # FLOW
-senders, recipients = readGraph(FILENAME)
-#print computeHITS(senders, recipients)
-print computePR(senders, recipients)
+senders, recipients = readGraph()
+PR = computePR(senders, recipients)
+saveAsJSON(senders, PR)

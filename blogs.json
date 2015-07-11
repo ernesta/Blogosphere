@@ -1,13 +1,1 @@
-{
-	"nodes": [
-		{"name": "Tukas"},
-		{"name": "Mukas"},
-		{"name": "Bukas"},
-		{"name": "Fukas"}
-	],
-	"links": [
-		{"source": 0, "target": 1, "value": 1},
-		{"source": 1, "target": 2, "value": 3},
-		{"source": 1, "target": 3, "value": 1}
-  ]
-}
+{"nodes": [{"importance": 0.275634304, "name": "Bukas"}, {"importance": 0.2884776704, "name": "Mukas"}, {"importance": 0.1602537216, "name": "Tukas"}, {"importance": 0.275634304, "name": "Fukas"}], "links": [{"source": 1, "target": 0}, {"source": 1, "target": 3}, {"source": 2, "target": 1}]}
