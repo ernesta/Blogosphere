@@ -65,7 +65,9 @@
 			.call(force.drag);
 		
 		node.append("circle")
-			.attr("r", RADIUS)
+			.attr("r", function(d) {
+				return 30 * d.importance;
+			})
 			.style("fill", function(d) {
 				return stringToColor(d.name);
 			})
