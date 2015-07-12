@@ -5,7 +5,7 @@ import json
 
 
 # CONSTANTS
-ITERATIONS = 10
+ITERATIONS = 100
 L = 0.8
 
 
@@ -19,7 +19,7 @@ def readGraph():
 	
 	with open("blogs.txt", "r") as input:
 		for line in input:
-			tokens = line.split("\t")
+			tokens = line.split("\t\t")
 			sender = tokens[0].strip()
 			recipient = tokens[1].strip()
 			
@@ -63,7 +63,7 @@ def saveAsJSON(senders, PR):
 				"source": source,
 				"target": bloggers.index(recipient)})
 	
-	with open("blogs.json", "w") as output:
+	with open("../blogs.json", "w") as output:
 		json.dump({"nodes": nodes, "links": links}, output)
 	
 	
