@@ -1,10 +1,9 @@
 (function($) {
-	// Constants
 	// Container
-	var WIDTH = 400;
-	var HEIGHT = 400;
+	var WIDTH = $(window).width();
+	var HEIGHT = $(window).height();
 	// Node
-	var RADIUS = 8;
+	var RADIUS = 3000;
 	// Arrowhead
 	var MARKER = 8;
 	var OFFSET = 20;
@@ -15,6 +14,9 @@
 	// DOM
 	var CONTAINER = "#network";
 	
+	// Resizing
+	d3.select(window).on('resize', resize);
+	
 	// Elements
 	var force = d3.layout.force()
 		.charge(-120)
@@ -22,8 +24,7 @@
 		.size([WIDTH, HEIGHT]);
 		
 	var svg = d3.select(CONTAINER).append("svg")
-		.attr("width", WIDTH)
-		.attr("height", HEIGHT);
+		.attr("viewBox", "0 0 " + WIDTH + " " + HEIGHT);
 	
 	// Network
 	d3.json("blogs.json", function(error, graph) {
@@ -66,17 +67,10 @@
 		
 		node.append("circle")
 			.attr("r", function(d) {
-				return 30 * d.importance;
+				return RADIUS * d.importance;
 			})
 			.style("fill", function(d) {
 				return stringToColor(d.name);
-			})
-		
-		node.append("text")
-			.attr("dx", 12)
-			.attr("dy", ".35em")
-			.text(function(d) {
-				return d.name
 			});
 		
 		force.on("tick", function() {
@@ -100,6 +94,13 @@
 	});
 	
 	
+	function resize() {
+		var width = $(window).width();
+		var height = $(window).height();
+		svg.attr("width", width).attr("height", height);
+	}
+	
+	
 	function stringToColor(value) {
 		var hash = "";
 		
@@ -110,16 +111,18 @@
 		return COLOR(parseInt(hash));
 	}
 	
-	function mouseover() {
+	function mouseover(d) {
+		$("#info p").text(d.name);
+		
 		d3.select(this).select("circle").transition()
 			.duration(TIME)
-			.attr("r", 1.3 * RADIUS);
+			.attr("r", 1.3 * RADIUS * d.importance);
 	}
 	
-	function mouseout() {
+	function mouseout(d) {
 		d3.select(this).select("circle").transition()
 			.duration(TIME)
-			.attr("r", RADIUS);
+			.attr("r", RADIUS * d.importance);
 	}
 	
 })(jQuery)
