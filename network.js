@@ -1,18 +1,18 @@
 (function($) {
+	// DOM
+	var CONTAINER = "#network";
 	// Container
-	var WIDTH = $(window).width();
-	var HEIGHT = $(window).height();
+	var WIDTH = $(CONTAINER).width();
+	var HEIGHT = $(CONTAINER).height();
 	// Node
 	var RADIUS = 3000;
 	// Arrowhead
 	var MARKER = 8;
 	var OFFSET = 20;
 	// Transitions
-	var TIME = 500;
+	var TIME = 250;
 	// Colors
 	var COLOR = d3.scale.category20();
-	// DOM
-	var CONTAINER = "#network";
 	
 	// Resizing
 	d3.select(window).on('resize', resize);
@@ -20,9 +20,9 @@
 	// Elements
 	var force = d3.layout.force()
 		.charge(-120)
-		.linkDistance(50)
+		.linkDistance(200)
 		.size([WIDTH, HEIGHT]);
-		
+	
 	var svg = d3.select(CONTAINER).append("svg")
 		.attr("viewBox", "0 0 " + WIDTH + " " + HEIGHT);
 	
@@ -35,7 +35,7 @@
 			.links(graph.links)
 			.start();
 		
-		var def = svg.append("svg:defs")
+		var def = svg.append("svg:defs");
 		
 		var marker = def.selectAll("marker")
 		    .data(["end"])
@@ -63,6 +63,7 @@
 			.attr("class", "node")
 			.on("mouseover", mouseover)
 			.on("mouseout", mouseout)
+			.on("click", click)
 			.call(force.drag);
 		
 		node.append("circle")
@@ -90,16 +91,14 @@
 			node.attr("transform", function(d) {
 				return "translate(" + d.x + "," + d.y + ")";
 			});
-		});
+		});		
 	});
-	
 	
 	function resize() {
 		var width = $(window).width();
 		var height = $(window).height();
 		svg.attr("width", width).attr("height", height);
 	}
-	
 	
 	function stringToColor(value) {
 		var hash = "";
@@ -112,11 +111,12 @@
 	}
 	
 	function mouseover(d) {
-		$("#info p").text(d.name);
+		$("#blog .value").empty().append("<a href='" + d.URL + "'>" + d.name + "</a>")
+		$("#inlinks .value").text(d.inlinks);
 		
 		d3.select(this).select("circle").transition()
 			.duration(TIME)
-			.attr("r", 1.3 * RADIUS * d.importance);
+			.attr("r", 1.2 * RADIUS * d.importance);
 	}
 	
 	function mouseout(d) {
@@ -125,4 +125,9 @@
 			.attr("r", RADIUS * d.importance);
 	}
 	
+	function click(d) {
+		if (!d3.event.defaultPrevented) {
+			window.open(d.URL, "_blank");
+		}
+	}
 })(jQuery)
