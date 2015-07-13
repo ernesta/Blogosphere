@@ -28,7 +28,7 @@ http://alusalus.lt/		http://breadandbeer.lt/?lang=lt
 http://alusalus.lt/		http://beergeek.lt/
 http://alusalus.lt/		http://tikrasalus.lt/
 http://alusalus.lt/		http://mgkolekcija.wordpress.com/
-http://alusalus.lt/		http://sakiskiualus.lt/#blogas
+http://alusalus.lt/		http://www.sakiskiualus.lt/blogas/
 http://alusalus.lt/		http://www.alutis.lt/
 http://alusalus.lt/		http://alausuzrasai.blogspot.com/
 http://alusalus.lt/		http://www.apiealu.lt/
@@ -64,7 +64,7 @@ http://bedievis.popo.lt/		http://alusalus.lt/
 http://bedievis.popo.lt/		http://puteikis.lt/
 http://bedievis.popo.lt/		http://puteikis.blogspot.com/
 http://bedievis.popo.lt/		http://www.commonsense.lt/
-http://bedievis.popo.lt/		http://www.vaikystes-sodas.lt/
+http://bedievis.popo.lt/		http://www.vaikystes-sodas.lt/Austejos-blogas/
 http://bedievis.popo.lt/		http://druskininkunaujienos.blogspot.com/
 http://bedievis.popo.lt/		http://petraszd.blogspot.com/
 http://bedievis.popo.lt/		http://www.grumlinas.lt/
@@ -88,7 +88,7 @@ http://blogas.poko.lt/		http://alusalus.lt/
 http://blogas.poko.lt/		http://jievaikai.lt/
 http://blogas.poko.lt/		http://uilgoji.lt/
 http://blogas.poko.lt/		http://daugiauneivirtuve.lt/
-http://blogas.poko.lt/		http://nergyvenimo.wordpress.com/
+http://blogas.poko.lt/		http://nergyvenimo.com/
 http://blogas.poko.lt/		http://kepyklapenki.lt/
 http://blogas.poko.lt/		http://www.herta.lt/
 http://blogas.poko.lt/		http://www.gelezinelape.lt/
@@ -436,7 +436,7 @@ http://www.commonsense.lt/		http://enorca.blogspot.com/
 http://www.commonsense.lt/		http://emilija.popo.lt/
 http://www.commonsense.lt/		http://www.dansu.lt/
 http://www.commonsense.lt/		http://www.giedresblogas.lt/
-http://www.commonsense.lt/		http://www.kootvela.blogspot.com/
+http://www.commonsense.lt/		http://kootvela.blogspot.com/
 http://www.commonsense.lt/		http://liberoblius.lt/
 http://www.commonsense.lt/		http://www.gelezinelape.lt/
 http://www.commonsense.lt/		http://laaabas.wordpress.com/

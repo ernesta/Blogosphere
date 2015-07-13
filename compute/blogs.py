@@ -1,6 +1,7 @@
 from __future__ import division
 import copy
 import json
+import re
 
 
 
@@ -16,18 +17,25 @@ L = 0.8
 def readGraph():
 	senders = {}
 	recipients = {}
+	URLs = {}
 	
 	with open("blogs.txt", "r") as input:
 		for line in input:
 			tokens = line.split("\t\t")
-			sender = tokens[0].strip()
-			recipient = tokens[1].strip()
+			senderURL = tokens[0].strip()
+			recipientURL = tokens[1].strip()
 			
-			# Ignores links to itself
+			sender = getBase(senderURL)
+			recipient = getBase(recipientURL)
+			
+			URLs[sender] = senderURL
+			URLs[recipient] = recipientURL
+			
+			# Ignores self links.
 			if sender == recipient:
 				continue
 					
-			# Adds sender and recipient to the graph
+			# Adds sender and recipient to the graph.
 			if sender not in senders:
 				senders[sender] = set()
 					
@@ -43,25 +51,34 @@ def readGraph():
 			senders[sender].add(recipient)
 			recipients[recipient].add(sender)
 	
-	return senders, recipients
+	return senders, recipients, URLs
+
+
+def getBase(input):
+	input = re.sub("http\:\/\/", "", input)
+	input = re.sub("www\.", "", input)
+	return input.rstrip("/")
 
 
 # Collects the data necessary for the graph, saves to JSON.
-def saveAsJSON(senders, PR):
+def saveAsJSON(senders, recipients, URLs, PR):
 	nodes = []
 	links = []
 	
-	bloggers = senders.keys()
+	bloggers = [sender for sender in senders if len(recipients[sender]) > 1]
 	for source, sender in enumerate(bloggers):
 		nodes.append({
 			"name": sender,
-			"importance": PR[sender]
+			"URL": URLs[sender],
+			"importance": PR[sender],
+			"inlinks": len(recipients[sender])
 		})
 		
 		for recipient in senders[sender]:
-			links.append({
-				"source": source,
-				"target": bloggers.index(recipient)})
+			if recipient in bloggers:
+				links.append({
+					"source": source,
+					"target": bloggers.index(recipient)})
 	
 	with open("../blogs.json", "w") as output:
 		json.dump({"nodes": nodes, "links": links}, output)
@@ -90,13 +107,13 @@ def setupHITS(senderGraph):
 
 # Iteratively computes hub and authority scores.
 def computeHITS(senderGraph, recipientGraph):
-	# Sets up data structures for HITS analysis
+	# Sets up data structures for HITS analysis.
 	hubs, authorities = setupHITS(senderGraph)
 
 	for i in range(ITERATIONS):
 		norm = 0
 		
-		# Computes hub scores
+		# Computes hub scores.
 		for sender, recipients in senderGraph.iteritems():
 			hubs[sender] = 0
 			
@@ -105,11 +122,11 @@ def computeHITS(senderGraph, recipientGraph):
 	
 			norm += pow(hubs[sender], 2)
 		
-		# Normalizes hub scores
+		# Normalizes hub scores.
 		norm = pow(norm, 0.5)
 		normalize(hubs, norm)
 
-		# Computes authority scores
+		# Computes authority scores.
 		norm = 0
 		
 		for recipient, senders in recipientGraph.iteritems():
@@ -120,7 +137,7 @@ def computeHITS(senderGraph, recipientGraph):
 		
 			norm += pow(authorities[recipient], 2)
 
-		# Normalizes authority scores
+		# Normalises authority scores.
 		norm = pow(norm, 0.5)
 		normalize(authorities, norm)
 
@@ -154,7 +171,7 @@ def computePR(senderGraph, recipientGraph):
 
 	# Iterates pageRank computation ITERATIONS times.
 	for i in range(ITERATIONS):
-		# Sums PageRank over sinks
+		# Sums PageRank over sinks.
 		sinkSum = 0
 		for sink in sinks:
 			sinkSum += currentPR[sink]
@@ -179,6 +196,6 @@ def computePR(senderGraph, recipientGraph):
 
 
 # FLOW
-senders, recipients = readGraph()
+senders, recipients, URLs = readGraph()
 PR = computePR(senders, recipients)
-saveAsJSON(senders, PR)
+saveAsJSON(senders, recipients, URLs, PR)
