@@ -28,8 +28,6 @@ body {
 	border: 1px solid #ddd;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
 	padding: 10px;
-	width: 220px;
-	height: 37px;
 	bottom: 50px;
 }
 
@@ -65,13 +63,21 @@ p, a {
 	color: #666;
 }
 
-#blog {
+#blog, #inlinks {
 	margin-bottom: 5px;
 }
 
 .feature {
 	font-weight: bold;
 }
+
+input {
+	width: 215px;
+	height: 16px;
+	margin: 0;
+	padding: 2px;
+}
+
 
 .node circle {
 	stroke: #fff;

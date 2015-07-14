@@ -12,7 +12,7 @@
 	// Transitions
 	var TIME = 250;
 	// Colors
-	var COLOR = d3.scale.category20();
+	var COLOR = d3.scale.category20b();
 	
 	// Resizing
 	d3.select(window).on('resize', resize);
@@ -25,6 +25,9 @@
 	
 	var svg = d3.select(CONTAINER).append("svg")
 		.attr("viewBox", "0 0 " + WIDTH + " " + HEIGHT);
+	
+	// Search
+	$("#search").keyup(onKeyUp);
 	
 	// Network
 	d3.json("blogs.json", function(error, graph) {
@@ -128,6 +131,40 @@
 	function click(d) {
 		if (!d3.event.defaultPrevented) {
 			window.open(d.URL, "_blank");
+		}
+	}
+	
+	function onKeyUp() {
+		query = $(this).val();
+		delay = 1000;
+		window.setTimeout(function() {
+			pulse(query);
+		}, delay);
+	}
+	
+	function pulse(query) {
+		if (query.length > 2) {
+			d3.selectAll("circle").each(function(d) {
+				node = d3.select(this);
+				node.transition().duration(0);
+				
+				name = d.name.replace(".blogspot", "").replace(".wordpress", "").replace(".popo", "").replace("blogas", "").replace("blog", "").replace(".com", "").replace(".lt", "");
+				
+				if (name.indexOf(query) > -1) {
+					for (var i = 0; i < 3; i++) {
+						console.log(name)
+						node.transition()
+							.duration(TIME)
+							.delay(2 * i * TIME)
+							.attr("r", 1.3 * RADIUS * d.importance);
+						
+						node.transition()
+							.duration(TIME)
+							.delay((2 * i + 1) * TIME)
+							.attr("r", RADIUS * d.importance);
+					}
+				}
+			});
 		}
 	}
 })(jQuery)
